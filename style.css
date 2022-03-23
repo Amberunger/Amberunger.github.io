@@ -54,10 +54,6 @@ text-align:justify;
 }
 p {
   border: 5px solid purple;
-  padding-top: 100px;
-  padding-right: 100px;
-  padding-bottom: 100px;
-  padding-left:100px;
 }
 div {
   padding-top: 1px;
@@ -73,11 +69,10 @@ body {
 }
 img {
   float: right;
-  padding-top: 14px;
-  padding-right: 100px;
-  padding-bottom: 0px;
+  padding-top: 50px;
+  padding-right:5px;
+  padding-bottom: 50px;
   padding-left:100px;
-
 }
 h1 {
   text-shadow: 2px 0px;
