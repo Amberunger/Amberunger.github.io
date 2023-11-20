@@ -1,99 +1,84 @@
+import * as THREE from 'three';
 
-import * as THREE from './three.module.js';
-
-
+// starting positon of the images
+const Starty = 10;
+// make a new scene
 const scene = new THREE.Scene();
+// put the camrea in
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 30;
+camera.position.y = Starty;
+camera.position.x = 5
+// make list of imgs
+const geometry = new THREE.PlaneGeometry(30, 20);
+let imgList = [
+    "nugget.jpg",
+    "monk.jpg",
+    "fries.jpg"
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-)
-const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg')
-});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.z = 90
-camera.position.y = 10
-const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.1)
+]
+// add the images as a plane mesh to the scene
+for (const image in imgList) {
+// every msh ase a gemoutry and a material
+    const texture = new THREE.TextureLoader().load("img/" + imgList[image])
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xfffff0,
+        side: THREE.DoubleSide,
+        map: texture // add the texture
+    });
 
-const pointLight = new THREE.PointLight(0xFFFFFF, 1000, 1000)
-pointLight.position.set(0, 20, 20)
-
-scene.add(pointLight)
-scene.add(ambientLight)
-
-
-//HELPERS
-const lightHelper = new THREE.PointLightHelper(pointLight)
-const gridHelper = new THREE.GridHelper(200, 50)
-const axesHelper = new THREE.AxesHelper(20, 20, 20);
-scene.add(lightHelper, gridHelper, axesHelper)
-
-const geoPog = new THREE.CylinderGeometry(41.37, 41.37, 6, 31)
-const texturePog = new THREE.TextureLoader().load("ws.png")
-const matPog = new THREE.MeshStandardMaterial({
-  color: 0X35FFFFFFFFF,
-  wireframe: false,
-  map: texturePog
-})
-const pog = new THREE.Mesh(geoPog, matPog);
-
-scene.add(pog)
-
-
-//const controls = new OrbitControls(camera,renderer.domElement);
-
-function addStar() {
-  const geometry = new THREE.SphereGeometry(0.25)
-  const material = new THREE.MeshStandardMaterial({
-    color: 0xffffff
-  })
-  const star = new THREE.Mesh(geometry, material)
-
-  const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100))
-  star.position.set(x, y, z);
-  scene.add(star)
-}
-const spaceTexture = new THREE.TextureLoader().load('Stat.jpg');
-scene.background = spaceTexture;
-const moonTexture = new THREE.TextureLoader().load('moon.jpg');
-
-const moon = new THREE.Mesh(
-  new THREE.SphereGeometry(15, 32, 32),
-  new THREE.MeshStandardMaterial({
-    map: moonTexture
-  })
-);
-scene.add(moon)
-Array(400).fill().forEach(addStar)
-
-function animate(time) {
-  requestAnimationFrame(animate);
-
-  pog.rotation.x += .01;
-
-  pog.rotation.y += .01;
-
-  pog.rotation.z += .1;
-
-
-  //controls.update()
-  renderer.render(scene, camera);
+    const plane = new THREE.Mesh(geometry, material);
+    // set initial and add new plane
+    plane.rotation.y = 10;
+    plane.position.x = -5;
+    plane.position.y = image * -50;
+    scene.add(plane);
 }
 
+console.log(scene)
+// move the camera with the scrool bar
 function moveCamera() {
-  const t = document.body.getBoundingClientRect().top;
-  moon.rotation.x += .04;
+    const top = document.body.getBoundingClientRect().top;
+    camera.position.y = Starty + top * 0.10;
 
-  moon.rotation.y += .04;
-
-  moon.rotation.z += .04;
-  camera.position.z = t * -0.1 +99
-  camera.position.x = t * -0.0002
-  camera.position.y = t * -0.0002
 }
-document.body.onscroll = moveCamera
+// add scrollbar event
+document.body.onscroll = moveCamera;
+const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector('#bg')
+});
+// set renderer size and add to page
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+// resize to fit window and to fit phone
+resizeWindow();
+
+function resizeWindow() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    //addjust for phone or desktop size
+    if (window.innerWidth <= 600) {
+        camera.position.x = -5;
+        for (const child in scene.children) {
+            scene.children[child].rotation.y = 0;
+            scene.children[child].position.y = child * -50;
+        }
+    } else {
+        camera.position.x = 15;
+        for (const child in scene.children) {
+            scene.children[child].rotation.y = 15 * (Math.PI / 180);
+            scene.children[child].position.y = child * -30;
+        }
+    }
+}
+// resize canvas on window resize
+window.addEventListener('resize', resizeWindow, false)
+// animation loop ( calls itself recursively)
+
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+// start the animation
 animate();
