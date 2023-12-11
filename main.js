@@ -9,10 +9,12 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.z = 30;
 camera.position.y = Starty;
 camera.position.x = 5
+scene.background = new THREE.TextureLoader().load("img/bg2.jpg")
+console.log(scene)
 // make list of imgs
-const geometry = new THREE.PlaneGeometry(30, 20);
+const geometry = new THREE.PlaneGeometry(25, 20);
 let imgList = [
-    "nugget.jpg",
+    "roll.jpg",
     "monk.jpg",
     "fries.jpg"
 
@@ -30,12 +32,11 @@ for (const image in imgList) {
     const plane = new THREE.Mesh(geometry, material);
     // set initial and add new plane
     plane.rotation.y = 10;
-    plane.position.x = -5;
+    plane.position.x = -2;
     plane.position.y = image * -50;
     scene.add(plane);
 }
 
-console.log(scene)
 // move the camera with the scrool bar
 function moveCamera() {
     const top = document.body.getBoundingClientRect().top;

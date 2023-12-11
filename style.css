@@ -7,8 +7,8 @@ canvas {
 
   body {
     font-size: 24px;
-    color: rgb(255, 255, 255);
-    float : right;
+    color: rgb(0, 0, 0);
+    float : right
   }
 
   #content {
@@ -16,12 +16,22 @@ canvas {
     width:60%;
   }
   .box{
-    background-color: rgba(230, 202, 146, 0.5);
-    border-radius:3px
+    background-color: rgba(111, 190, 255, 0.5);
+    border-radius:3px;
+    padding: 15px;
+    border: 10px solid rgba(76, 153, 216, 0.5);
+    font-family:'Papyrus'
+  }
+  .boxy{
+    background-color: rgba(4, 100, 255, 0.5);
+    border-radius:3px;
+    padding: 15px;
+    border: 10px solid rgba(0, 69, 179, 0.5);
+    font-family:'Papyrus'
   }
 
   h1 {
-    color: #ffffff;
+    color: #000000;
   }
 
   @media screen and (max-width:600px) {
