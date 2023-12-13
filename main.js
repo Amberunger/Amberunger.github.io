@@ -60,7 +60,7 @@ function resizeWindow() {
     renderer.setSize(window.innerWidth, window.innerHeight)
     //addjust for phone or desktop size
     if (window.innerWidth <= 600) {
-        camera.position.x = -5;
+        camera.position.x = -2;
         for (const child in scene.children) {
             scene.children[child].rotation.y = 0;
             scene.children[child].position.y = child * -50;
