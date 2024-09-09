@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swipe Image Gallery</title>
+    <style>
+        #container {
+            width: 480px;
+            margin: auto;
+            background-color: #666666;
+        }
+
+        #swipeImg {
+            width: 480px;
+            height: auto;
+            position: relative;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img src="img/levelup01.png" alt="" id="swipeImg">
+    </div>
+</body>
+<script>
+    // CONSTANTS
+    const SWIPE_MIN = 200;
+
+    // SETUP IMAGE
+    let swipeImg = document.getElementById('swipeImg');
+    swipeImg.style.top = window.getComputedStyle(swipeImg).top;
+    swipeImg.style.left = window.getComputedStyle(swipeImg).left;
+
+    // LIST OF IMAGES
+    let images = [
+        'img/levelup01.png',
+        'img/levelup02.png',
+        'img/levelup03.png',
+        'img/levelup04.png',
+        'img/levelup05.png',
+        'img/levelup06.png',
+        'img/levelup07.png',
+    ];
+
+    // Image index to keep track of the current image
+    let imgIndex = 0;
+
+    // Arrays to store the start and end coordinates of touch events
+    let startX = [];
+    let startY = [];
+    let lastX = [];
+    let lastY = [];
+    let endX = [];
+    let endY = [];
+
+    // Detect the start of a touch event on the image
+    swipeImg.addEventListener('touchstart', function () {
+        start(event);
+    });
+    // Detect the movement of a touch event on the image
+    swipeImg.addEventListener('touchmove', function () {
+        move(event);
+    });
+    // Detect the end of a touch event on the image
+    swipeImg.addEventListener('touchend', function () {
+        end(event);
+    });
+
+    // Detect mouse wheel scroll on the image
+    swipeImg.addEventListener('wheel', function (event) {
+        handleScroll(event);
+    });
+
+    function start(event) {
+        // Set the start coordinates to the touch position
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        // Reset the last touch position to 0
+        lastX = 0;
+        lastY = 0;
+    }
+
+    function move(event) {
+        // If the touch has moved from its initial position, move the image accordingly
+        if (event.touches.length > 0) {
+            // Calculate the difference between the start touch and the current touch for each axis
+            let diffX = event.touches[0].clientX - startX;
+            let diffY = event.touches[0].clientY - startY;
+            // If the horizontal movement is greater than the vertical movement
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Move the image horizontally
+                swipeImg.style.left = `${diffX}px`;
+                // Reset the vertical position of the image to 0px
+                swipeImg.style.top = '0px';
+            } else {
+                // Move the image vertically
+                swipeImg.style.top = `${diffY}px`;
+                // Reset the horizontal position of the image to 0px
+                swipeImg.style.left = '0px';
+            }
+            // Update the last touch position to the current touch position
+            lastX = event.touches[0].clientX;
+            lastY = event.touches[0].clientY;
+        }
+    }
+
+    function end(event) {
+        // Set the end coordinates to the touch position
+        endX = event.changedTouches[0].clientX;
+        endY = event.changedTouches[0].clientY;
+        // Calculate the absolute difference between the start and end touch positions for each axis
+        let diffX = Math.abs(endX - startX);
+        let diffY = Math.abs(endY - startY);
+        // If the horizontal swipe distance is greater than the minimum swipe distance and greater than the vertical swipe distance
+        if (diffX > SWIPE_MIN && diffX > diffY) {
+            // If the current image is not the first image
+            if (imgIndex > 0) {
+                // Show the previous image
+                imgIndex--;
+                swipeImg.src = images[imgIndex];
+            } else {
+                // Show the last image
+                imgIndex = images.length - 1;
+                swipeImg.src = images[imgIndex];
+            }
+        } else if (diffX < SWIPE_MIN && diffX > diffY) {
+            // If the horizontal swipe distance is less than the minimum swipe distance and greater than the vertical swipe distance
+            // If the current image is not the last image
+            if (imgIndex < images.length - 1) {
+                // Show the next image
+                imgIndex++;
+                swipeImg.src = images[imgIndex];
+            } else {
+                // Show the first image
+                imgIndex = 0;
+                swipeImg.src = images[imgIndex];
+            }
+        } else if (diffY > SWIPE_MIN && diffY > diffX) {
+            // If the vertical swipe distance is greater than the minimum swipe distance and greater than the horizontal swipe distance
+            // If there are images in the list
+            if (images.length > 0) {
+                // Remove the current image from the list
+                images.splice(imgIndex, 1);
+                // If the current image index is out of bounds
+                if (imgIndex >= images.length) {
+                    // Decrement the image index
+                    imgIndex--;
+                } else {
+                    // Show the current image
+                    swipeImg.src = images[imgIndex];
+                }
+                // Show the current image
+                swipeImg.src = images[imgIndex];
+            }
+        } else if (diffY < SWIPE_MIN && diffY > diffX) {
+            // If the vertical swipe distance is less than the minimum swipe distance and greater than the horizontal swipe distance
+            // Add the current image to the end of the list
+            images.push(swipeImg.src);
+        }
+        // Reset the image position to 0px
+        swipeImg.style.left = '0px';
+        swipeImg.style.top = '0px';
+        // Reset the last touch position to 0
+        lastX = 0;
+        lastY = 0;
+    }
+
+    function handleScroll(event) {
+        // Prevent the default scroll behavior
+        event.preventDefault();
+        // If the user scrolls up
+        if (event.deltaY < 0) {
+            // Show the previous image
+            if (imgIndex > 0) {
+                imgIndex--;
+                swipeImg.src = images[imgIndex];
+            } else {
+                imgIndex = images.length - 1;
+                swipeImg.src = images[imgIndex];
+            }
+        } else {
+            // If the user scrolls down
+            // Show the next image
+            if (imgIndex < images.length - 1) {
+                imgIndex++;
+                swipeImg.src = images[imgIndex];
+            } else {
+                imgIndex = 0;
+                swipeImg.src = images[imgIndex];
+            }
+        }
+    }
+</script>
+
+</html>

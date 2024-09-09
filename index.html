@@ -1,167 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A. unger Portfolio/resume</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amber Unger's Personal Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<div id="content">
+<body>
+    <header>
+        <h1>Welcome to Amber's Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#past-jobs">Past Jobs</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#personal-interests">Personal Interests</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#social-media">Social Media</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="introduction">
+        <h2>Introduction</h2>
+        <p>I'm Amber, and I'm excited to have you here. Let's dive into my website!</p>
+        <p>Explore my past jobs, education, personal interests, projects, certifications, and find me on social media. Feel free to reach out for more info!</p>
+    </section>
 
-  <body>
-    <script type="importmap">
-      {
-       "imports": {
-         "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
-         "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
-        }
-      }
-    </script>
-    <canvas id="bg"></canvas>
-    <script type="module" src="main.js"></script>
-    <div class="box">
+    <section id="past-jobs">
+        <h2>Past Jobs</h2>
+        <ul>
+            <li>
+                <strong>Crew Member</strong> at McDonald's
+                <p>Worked as a crew member, providing excellent customer service, preparing food, and ensuring a clean and welcoming environment.</p>
+            </li>
+            <li>
+                <strong>Cashier</strong> at Giant's
+                <p>Served as a cashier, handling transactions, assisting customers with their purchases, and maintaining accurate cash handling procedures.</p>
+            </li>
+        </ul>
+    </section>
 
-      <h1> Hello , I am Amber Unger</h1>
+    <section id="education">
+        <h2>Education</h2>
+        <p>Details about your education and academic background can be listed here.</p>
+    </section>
 
-      <p>
-        I am currently a junior at York County School Of Technology
-      </p>
-      <p>
+    <section id="certifications">
+        <h2>Certifications</h2>
+        <ul>
+            <li>
+                IT Fundamentals Pro: a very basic IT certification
+                <button class="cert-button" onclick="toggleImage()">Show Image</button>
+                <div id="cert-image" class="cert-popup" style="display: none;">
+                    <img src="itfPro.png" alt="Certification Image">
+                </div>
+            </li>
+        </ul>
+    </section>
 
-      <h2>these are things I have or do</h2>
-    </div>
-    <div class="boxy">
+    <section id="personal-interests">
+        <h2>Personal Interests</h2>
+        <p>Share some of your personal interests, hobbies, and passions related to gaming.</p>
+    </section>
 
-      <h1>Clubs</h1>
-      <ul>
-        <p>
-          Thew out the three years I have been going to york countey school of technology,
-          I have been in a handful of clubs below you can see what clubs I have been in
-        </p>
-        <li>
-          <h2>D&D</h2>
-          <p>
-            D%D is a fantasy style role playing game where you can be anything you want to be and do anything you want
-            to do
-            its a game where you can let your imagination run wild,
-            and its a good way to make friends and talk to new people.
-          </p>
-        </li>
-        <li>
-          <h2>NHS (National Honor Society)</h2>
-          <p>
-            NHS is a club where we work in the community. so far i have help with 2023-2024 kinship event were we got
-            gifts for foster family's i ended up healping at the crafts tabel
-            i was also abel to get a phot with santa because we cant take phots of the children.
-          </p>
-        </li>
-        <li>
-          <h2>Game Dev Club</h2>
-          <p>
-            In the game dev club, I both create and play games. I enjoy playing Pokepucks and I am also working on
-            developing
-            my own games.
-          </p>
-        </li>
-        <li>
-          <h2>Cyber Patriot</h2>
-          <p>
-            In Cyber Patriot, I'm a third-year Linux team member. My role involves securing a Linux account for a
-            fictitious
-            company against threats like hackers, as well as removing non-work-related files and media.
-          </p>
-        </li>
-      </ul>
+    <section id="projects">
+        <h2>Projects</h2>
+        <ul>
+            <strong>
+            <li>
+                <a href="touchcontrols/AmberUnger.html" target="_blank">Touch Controls</a>
+            </strong>
+            <p>add discription</p>
+            </li>
 
-      <h1>Jobs</h1>
-      <ul>
-        <p>
-          I have been working in the job force since i was 14 and have been gaining skills from those jobs since then
-          that has helped me grow into a more
-          well rounded person such skills are problem solving , team work , and communication
-        </p>
-        <li>
-          <h2>McDonald's</h2>
-          <p>
-            In December of 2021, I started my first job at McDonald's as a cashier/front counter crew member. My
-            responsibilities included greeting customers, cleaning the lobby, taking orders, managing the self-order
-            machines, assembling orders, restocking sauces, and assisting with curbside and drive-thews. I worked there
-            for
-            a total of 6 months before resigning to focus on schoolwork.
-          </p>
-        </li>
-        <li>
-          <h2>Giant Food Store</h2>
-          <p>
-            In 2023, I began working at Giant Food Store as a cashier. My duties involved checking out customers'
-            groceries,
-            assisting customers in finding items, putting away returns, and bagging groceries. I worked there for over 4
-            months.
-          </p>
-        </li>
-      </ul>
+        </ul>
+    </section>
 
-      <h1>Community Service</h1>
-      <ul>
-        <p>
-          I always liked getting involved in my community because you can learn new things as well at meet cool people
-          so
-          when I can I get involved
-        </p>
-        <li>
-          <h2>911 Dispatch Mural</h2>
-          <p>
-            In 2023, I participated in painting a mural as part of the celebration for National Telecommunication Week
-            at
-            the 911 Dispatch Center of York. This project was done collaboratively with a friend, and it was fulfilling
-            to
-            contribute to something for people who do so much for their community.
-          </p>
-        </li>
-        <li>
+    <section id="social-media">
+        <h2>Social Media</h2>
+        <ul>
+            <li><a href="https://www.youtube.com/channel/UCAPk4CrHSA6FfoC3MPVXwnw" target="_blank">YouTube</a></li>
+            <li><a href="https://www.tiktok.com/@amber_unger" target="_blank">TikTok</a></li>
+            <li><a href="https://www.instagram.com/amber_unger0704/" target="_blank">Instagram</a></li>
+            <li><a href="https://www.reddit.com/user/Repulsive-Savings-82" target="_blank">Reddit</a></li>
+        </ul>
+    </section>
 
-          <h2>NHS Kinship event</h2>
-          <p>
-            In 2023 I helped out at the kinship event for foster family's at york county school of technology ,
-            i help with setting up tables as well as help run one of the craft tables
-          </p>
-        </li>
-      </ul>
+ 
 
-      <h1>Certifications</h1>
-      <ul>
-        <li>
-          <h2>IT Fundamentals Pro</h2>
-          <p>
-            This certification is in IT Fundamentals Pro.
-          </p>
-        </li>
-      </ul>
-      <h1>Programming Projects</h1>
-      <li>
-        <h2>Goose Goose Jump</h2>
-        <p>
-          Goose Goose Jump is a game i am currently working on it is in the process of getting finished its a jumping
-          game following a goose.
-          you can paly it at the link below
-        </p>
-        <h3>
-          <a href="RunnerGame\index.html">Goose Goose Jump</a>
-        </h3>
-      </li>
-      <h1>cover letter</h1>
-      <h3>
-
-        <a href=resume.pdf>Amber's unger cover letter</a>
-        <h1>resume</h1>
-        <h3>
-
-          <a href=resume2.pdf>Amber's unger resume</a>
-        </h3>
-    </div>
-  </body>
-
-</div>
-
+    <script src="script.js"></script>
+</body>
 </html>
