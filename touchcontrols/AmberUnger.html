@@ -50,24 +50,22 @@
     // Image index to keep track of the current image
     let imgIndex = 0;
 
-    // Arrays to store the start and end coordinates of touch events
-    let startX = [];
-    let startY = [];
-    let lastX = [];
-    let lastY = [];
-    let endX = [];
-    let endY = [];
+    // Variables to store the start and end coordinates of touch events
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
 
     // Detect the start of a touch event on the image
-    swipeImg.addEventListener('touchstart', function () {
+    swipeImg.addEventListener('touchstart', function (event) {
         start(event);
     });
     // Detect the movement of a touch event on the image
-    swipeImg.addEventListener('touchmove', function () {
+    swipeImg.addEventListener('touchmove', function (event) {
         move(event);
     });
     // Detect the end of a touch event on the image
-    swipeImg.addEventListener('touchend', function () {
+    swipeImg.addEventListener('touchend', function (event) {
         end(event);
     });
 
@@ -80,33 +78,10 @@
         // Set the start coordinates to the touch position
         startX = event.touches[0].clientX;
         startY = event.touches[0].clientY;
-        // Reset the last touch position to 0
-        lastX = 0;
-        lastY = 0;
     }
 
     function move(event) {
-        // If the touch has moved from its initial position, move the image accordingly
-        if (event.touches.length > 0) {
-            // Calculate the difference between the start touch and the current touch for each axis
-            let diffX = event.touches[0].clientX - startX;
-            let diffY = event.touches[0].clientY - startY;
-            // If the horizontal movement is greater than the vertical movement
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                // Move the image horizontally
-                swipeImg.style.left = `${diffX}px`;
-                // Reset the vertical position of the image to 0px
-                swipeImg.style.top = '0px';
-            } else {
-                // Move the image vertically
-                swipeImg.style.top = `${diffY}px`;
-                // Reset the horizontal position of the image to 0px
-                swipeImg.style.left = '0px';
-            }
-            // Update the last touch position to the current touch position
-            lastX = event.touches[0].clientX;
-            lastY = event.touches[0].clientY;
-        }
+        // Optional: You can handle touch move here for visual feedback, but not necessary for this case
     }
 
     function end(event) {
@@ -116,58 +91,48 @@
         // Calculate the absolute difference between the start and end touch positions for each axis
         let diffX = Math.abs(endX - startX);
         let diffY = Math.abs(endY - startY);
-        // If the horizontal swipe distance is greater than the minimum swipe distance and greater than the vertical swipe distance
+
+        // If horizontal swipe (left or right)
         if (diffX > SWIPE_MIN && diffX > diffY) {
-            // If the current image is not the first image
-            if (imgIndex > 0) {
-                // Show the previous image
-                imgIndex--;
-                swipeImg.src = images[imgIndex];
+            if (endX < startX) {
+                // Swipe left - show previous image
+                showPreviousImage();
             } else {
-                // Show the last image
-                imgIndex = images.length - 1;
-                swipeImg.src = images[imgIndex];
+                // Swipe right - show next image
+                showNextImage();
             }
-        } else if (diffX < SWIPE_MIN && diffX > diffY) {
-            // If the horizontal swipe distance is less than the minimum swipe distance and greater than the vertical swipe distance
-            // If the current image is not the last image
-            if (imgIndex < images.length - 1) {
-                // Show the next image
-                imgIndex++;
-                swipeImg.src = images[imgIndex];
-            } else {
-                // Show the first image
-                imgIndex = 0;
-                swipeImg.src = images[imgIndex];
-            }
-        } else if (diffY > SWIPE_MIN && diffY > diffX) {
-            // If the vertical swipe distance is greater than the minimum swipe distance and greater than the horizontal swipe distance
-            // If there are images in the list
-            if (images.length > 0) {
-                // Remove the current image from the list
-                images.splice(imgIndex, 1);
-                // If the current image index is out of bounds
-                if (imgIndex >= images.length) {
-                    // Decrement the image index
-                    imgIndex--;
-                } else {
-                    // Show the current image
-                    swipeImg.src = images[imgIndex];
-                }
-                // Show the current image
-                swipeImg.src = images[imgIndex];
-            }
-        } else if (diffY < SWIPE_MIN && diffY > diffX) {
-            // If the vertical swipe distance is less than the minimum swipe distance and greater than the horizontal swipe distance
-            // Add the current image to the end of the list
-            images.push(swipeImg.src);
         }
-        // Reset the image position to 0px
+        // If vertical swipe (up or down)
+        else if (diffY > SWIPE_MIN && diffY > diffX) {
+            if (endY < startY) {
+                // Swipe up - show previous image
+                showPreviousImage();
+            } else {
+                // Swipe down - show next image
+                showNextImage();
+            }
+        }
+        // Reset image position after swipe
         swipeImg.style.left = '0px';
         swipeImg.style.top = '0px';
-        // Reset the last touch position to 0
-        lastX = 0;
-        lastY = 0;
+    }
+
+    function showPreviousImage() {
+        if (imgIndex > 0) {
+            imgIndex--;
+        } else {
+            imgIndex = images.length - 1; // Go to the last image if at the first
+        }
+        swipeImg.src = images[imgIndex];
+    }
+
+    function showNextImage() {
+        if (imgIndex < images.length - 1) {
+            imgIndex++;
+        } else {
+            imgIndex = 0; // Go to the first image if at the last
+        }
+        swipeImg.src = images[imgIndex];
     }
 
     function handleScroll(event) {
@@ -175,24 +140,10 @@
         event.preventDefault();
         // If the user scrolls up
         if (event.deltaY < 0) {
-            // Show the previous image
-            if (imgIndex > 0) {
-                imgIndex--;
-                swipeImg.src = images[imgIndex];
-            } else {
-                imgIndex = images.length - 1;
-                swipeImg.src = images[imgIndex];
-            }
+            showPreviousImage();
         } else {
             // If the user scrolls down
-            // Show the next image
-            if (imgIndex < images.length - 1) {
-                imgIndex++;
-                swipeImg.src = images[imgIndex];
-            } else {
-                imgIndex = 0;
-                swipeImg.src = images[imgIndex];
-            }
+            showNextImage();
         }
     }
 </script>
